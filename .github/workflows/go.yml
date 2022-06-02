@@ -23,5 +23,5 @@ jobs:
 
     - name: Test
       run: go test -v ./...
-    - name: codecov
-      run: curl -Os https://uploader.codecov.io/latest/linux/codecov \ chmod +x codecov \ ./codecov
+
+    - uses: codecov/codecov-action@v2
