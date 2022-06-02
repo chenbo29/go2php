@@ -7,34 +7,39 @@ import (
 	"testing"
 )
 
+type Substr struct {
+	str      string
+	expected string
+	start    int64
+	length   int64
+}
+
+var testsSubstr = []Substr{
+	{"abcdef", "bcdef", 1, 0},
+	{"abcdef", "bcd", 1, 3},
+	{"abcdef", "cde", 2, -1},
+	{"abcdef", "", 1, 3},
+	{"abcdef", "abcd", 0, 4},
+	{"abcdef", "abcde", 0, -1},
+	{"abcdef", "de", -3, -1},
+	{"abcdef", "ef", -2, 0},
+	{"abcdef", "d", -3, 1},
+}
+
 func TestSubstr(t *testing.T) {
-	var str = "abcdef"
-	if errMsg := testSubstr(str, "bcdef", 1, 0); errMsg != "" {
-		t.Fatalf(errMsg)
+	str := "test"
+	start := int64(10)
+	result, err := phpString.Substr(str, start, 0)
+	if err != nil {
+		t.Logf(`Substr("%v", "%b", "%b") = %q ,want match for %q`, str, start, 0, result, err)
 	}
-	if errMsg := testSubstr(str, "bcd", 1, 3); errMsg != "" {
-		t.Fatalf(errMsg)
-	}
-	if errMsg := testSubstr(str, "cde", 2, -1); errMsg != "" {
-		t.Fatalf(errMsg)
-	}
-	if errMsg := testSubstr(str, "", 4, -4); errMsg != "" {
-		t.Fatalf(errMsg)
-	}
-	if errMsg := testSubstr(str, "abcd", 0, 4); errMsg != "" {
-		t.Fatalf(errMsg)
-	}
-	if errMsg := testSubstr(str, "abcde", 0, -1); errMsg != "" {
-		t.Fatalf(errMsg)
-	}
-	if errMsg := testSubstr(str, "de", -3, -1); errMsg != "" {
-		t.Fatalf(errMsg)
-	}
-	if errMsg := testSubstr(str, "ef", -2, 0); errMsg != "" {
-		t.Fatalf(errMsg)
-	}
-	if errMsg := testSubstr(str, "d", -3, 1); errMsg != "" {
-		t.Fatalf(errMsg)
+
+	for i, test := range testsSubstr {
+		result, err := phpString.Substr(test.str, test.start, test.length)
+		want := regexp.MustCompile(test.expected)
+		if !want.MatchString(result) || err != nil {
+			t.Fatalf(`#%d Substr("%v", "%b", "%b") = %q, %q ,want match for %q, nil`, i, test.str, test.start, test.length, result, err, want)
+		}
 	}
 }
 
@@ -48,16 +53,6 @@ func TestTrim(t *testing.T) {
 	if errMsg := testTrim("Hello World", "o Wor", "Hdle"); errMsg != "" {
 		t.Fatalf(errMsg)
 	}
-}
-
-func testSubstr(str string, expected string, start int64, length int64) string {
-	msg := ""
-	result, err := phpString.Substr(str, start, length)
-	want := regexp.MustCompile(expected)
-	if !want.MatchString(result) || err != nil {
-		msg = fmt.Sprintf(`Substr("%v", "%b", "%b") = %q, %q ,want match for %q, nil`, str, start, length, result, err, want)
-	}
-	return msg
 }
 
 func testTrim(str string, expected string, characterMask string) string {

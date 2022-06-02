@@ -27,10 +27,10 @@ func Trim(str string, characterMask string) string {
 	return strings.Trim(str, characterMask)
 }
 
-func Ltrim(str string) string {
-	return strings.TrimLeft(str, "")
-}
-
-func Rtrim(str string) string {
-	return strings.TrimRight(str, "")
-}
+//func Ltrim(str string) string {
+//	return strings.TrimLeft(str, "")
+//}
+//
+//func Rtrim(str string) string {
+//	return strings.TrimRight(str, "")
+//}
