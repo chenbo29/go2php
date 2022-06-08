@@ -1,6 +1,7 @@
 package go2php
 
 import (
+	"errors"
 	"github.com/chenbo29/go2php/phpString"
 	"regexp"
 	"testing"
@@ -35,8 +36,8 @@ func TestSubstr(t *testing.T) {
 	str := "test"
 	start := int64(10)
 	result, err := phpString.Substr(str, start, 0)
-	if err != nil {
-		t.Logf(`Substr("%v", "%b", "%b") = %q ,want match for %q`, str, start, 0, result, err)
+	if err == nil {
+		t.Fatalf(`Substr("%v", "%b", "%b") = %q ,want match for %q`, str, start, 0, result, errors.New("start长度不能大于字符串长度"))
 	}
 
 	for i, test := range testsSubstr {
@@ -90,6 +91,35 @@ func TestRtrim(t *testing.T) {
 		ret := phpString.Rtrim(str.str, str.mask)
 		if ret != str.result {
 			t.Fatalf(`#%d Ltrim("%v", "%v") = %q, want result is %q`, i, str.str, str.mask, ret, str.result)
+		}
+	}
+}
+
+type Chr struct {
+	target int
+	expect string
+}
+
+var testsChr = []Chr{
+	{target: 65, expect: "A"},
+	{target: 97, expect: "a"},
+	{target: 33, expect: "!"},
+	{target: 63, expect: "?"},
+	{target: 32, expect: " "},
+}
+
+func TestChr(t *testing.T) {
+	for i, v := range testsChr {
+		ret, err := phpString.Chr(0)
+		if err == nil {
+			t.Fatalf(`#%d Chr("%d") = %q, want result is %q`, i, v.target, ret, errors.New("暂不支持控制字符【第 0~31 个字符以及第 127 个字符】"))
+		}
+		ret, err = phpString.Chr(v.target)
+		if err != nil {
+			t.Fatalf(`#%d Chr("%d") = %q, want result is %q`, i, v.target, ret, err)
+		}
+		if ret != v.expect {
+			t.Fatalf(`#%d Chr("%d") = %q, want result is %q`, i, v.target, ret, v.expect)
 		}
 	}
 }

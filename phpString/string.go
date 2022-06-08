@@ -87,3 +87,12 @@ func Rtrim(str string, characterMask string) string {
 		return str
 	}
 }
+
+// Chr https://www.php.net/manual/zh/function.chr.php
+func Chr(num int) (string, error) {
+	if num > 31 && num < 127 {
+		return string(rune(num)), nil
+	} else {
+		return "", errors.New("暂不支持控制字符【第 0~31 个字符以及第 127 个字符】")
+	}
+}
