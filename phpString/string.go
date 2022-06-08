@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// Substr https://www.php.net/manual/zh/function.substr.php
 func Substr(str string, start int64, length int64) (string, error) {
 	strRune := []rune(str)
 	if start > int64(len(str)) {
@@ -23,14 +24,66 @@ func Substr(str string, start int64, length int64) (string, error) {
 	return string([]rune(str)[start : start+length]), nil
 }
 
+// Trim https://www.php.net/manual/zh/function.trim.php
+// todo 使用..，可以指定字符的范围。
 func Trim(str string, characterMask string) string {
-	return strings.Trim(str, characterMask)
+	if characterMask == "" {
+		defaultCMask := []string{" ", "\t", "\n", "\r", "\x0b"}
+		for _, mask := range defaultCMask {
+			str = strings.Trim(str, mask)
+		}
+		return str
+	} else {
+		var cMM []string
+		Permutation(&cMM, characterMask, 0)
+		for _, cm := range cMM {
+			temp := []rune(cm)
+			for _, t := range temp {
+				str = strings.Trim(str, string(t))
+			}
+		}
+		return str
+	}
 }
 
-//func Ltrim(str string) string {
-//	return strings.TrimLeft(str, "")
-//}
-//
-//func Rtrim(str string) string {
-//	return strings.TrimRight(str, "")
-//}
+// Ltrim https://www.php.net/manual/zh/function.ltrim.php
+func Ltrim(str string, characterMask string) string {
+	if characterMask == "" {
+		defaultCMask := []string{" ", "\t", "\n", "\r", "\x0b"}
+		for _, mask := range defaultCMask {
+			str = strings.TrimLeft(str, mask)
+		}
+		return str
+	} else {
+		var cMM []string
+		Permutation(&cMM, characterMask, 0)
+		for _, cm := range cMM {
+			temp := []rune(cm)
+			for _, t := range temp {
+				str = strings.TrimLeft(str, string(t))
+			}
+		}
+		return str
+	}
+}
+
+// Rtrim https://www.php.net/manual/zh/function.rtrim.php
+func Rtrim(str string, characterMask string) string {
+	if characterMask == "" {
+		defaultCMask := []string{" ", "\t", "\n", "\r", "\x0b"}
+		for _, mask := range defaultCMask {
+			str = strings.TrimRight(str, mask)
+		}
+		return str
+	} else {
+		var cMM []string
+		Permutation(&cMM, characterMask, 0)
+		for _, cm := range cMM {
+			temp := []rune(cm)
+			for _, t := range temp {
+				str = strings.TrimRight(str, string(t))
+			}
+		}
+		return str
+	}
+}

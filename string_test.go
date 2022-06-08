@@ -1,7 +1,6 @@
 package go2php
 
 import (
-	"fmt"
 	"github.com/chenbo29/go2php/phpString"
 	"regexp"
 	"testing"
@@ -12,6 +11,12 @@ type Substr struct {
 	expected string
 	start    int64
 	length   int64
+}
+
+type Trim struct {
+	str    string
+	mask   string
+	result string
 }
 
 var testsSubstr = []Substr{
@@ -43,24 +48,48 @@ func TestSubstr(t *testing.T) {
 	}
 }
 
+var testsTrim = []Trim{
+	{"\t\tThese are a few words :) ...  ", "", "These are a few words :) ..."},
+	{"\t\tThese are a few words :) ...  ", " \t.", "These are a few words :)"},
+	{"Hello World", "Hdle", "o Wor"},
+	{"欢迎光临", "临", "欢迎光"},
+}
+
 func TestTrim(t *testing.T) {
-	if errMsg := testTrim("\t\tThese are a few words ...  ", "These are a few words ...", ""); errMsg != "" {
-		t.Fatalf(errMsg)
-	}
-	if errMsg := testTrim("\t\tThese are a few words ...  ", "These are a few words ", "\t."); errMsg != "" {
-		t.Fatalf(errMsg)
-	}
-	if errMsg := testTrim("Hello World", "o Wor", "Hdle"); errMsg != "" {
-		t.Fatalf(errMsg)
+	for i, str := range testsTrim {
+		ret := phpString.Trim(str.str, str.mask)
+		if ret != str.result {
+			t.Fatalf(`#%d Trim("%v", "%v") = %q, want result is %q`, i, str.str, str.mask, ret, str.result)
+		}
 	}
 }
 
-func testTrim(str string, expected string, characterMask string) string {
-	var msg string
-	result := phpString.Trim(str, characterMask)
-	want := regexp.MustCompile(expected)
-	if !want.MatchString(result) {
-		msg = fmt.Sprintf(`Trim("%v") = %q ,want match for %q`, str, result, want)
+var testsLtrim = []Trim{
+	{"\t\tThese are a few words :) ...  ", "", "These are a few words :) ...  "},
+	{"\t\tThese are a few words :) ...  ", " \t.", "These are a few words :) ...  "},
+	{"Hello World", "Hdle", "o World"},
+}
+
+func TestLtrim(t *testing.T) {
+	for i, str := range testsLtrim {
+		ret := phpString.Ltrim(str.str, str.mask)
+		if ret != str.result {
+			t.Fatalf(`#%d Ltrim("%v", "%v") = %q, want result is %q`, i, str.str, str.mask, ret, str.result)
+		}
 	}
-	return msg
+}
+
+var testsRtrim = []Trim{
+	{"\t\tThese are a few words :) ...  ", "", "\t\tThese are a few words :) ..."},
+	{"\t\tThese are a few words :) ...  ", " \t.", "\t\tThese are a few words :)"},
+	{"Hello World", "Hdle", "Hello Wor"},
+}
+
+func TestRtrim(t *testing.T) {
+	for i, str := range testsRtrim {
+		ret := phpString.Rtrim(str.str, str.mask)
+		if ret != str.result {
+			t.Fatalf(`#%d Ltrim("%v", "%v") = %q, want result is %q`, i, str.str, str.mask, ret, str.result)
+		}
+	}
 }
