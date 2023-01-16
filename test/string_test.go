@@ -1,4 +1,4 @@
-package go2php
+package test
 
 import (
 	"errors"
