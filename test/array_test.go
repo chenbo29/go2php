@@ -38,6 +38,45 @@ func TestChangeKeyCase(t *testing.T) {
 	}
 }
 
+func TestChunk(t *testing.T) {
+	testA := []int{1, 2, 3, 4}
+	retA := array.Chunk(testA, 2)
+	if len(retA) != 2 {
+		t.Fatalf("Chunk error retA")
+	}
+	for i, v := range retA {
+		for ii, vv := range v {
+			if vv != i*2+ii+1 {
+				t.Fatalf("Chunk error retB")
+			}
+		}
+	}
+
+	retB := array.Chunk(testA, len(testA))
+	if len(retB) != 1 {
+		t.Fatalf("Chunk error retB")
+	}
+	for _, v := range retB {
+		for i, vv := range v {
+			if vv != i+1 {
+				t.Fatalf("Chunk error retB")
+			}
+		}
+	}
+
+	retC := array.Chunk(testA, len(testA)+1)
+	if len(retC) != 1 {
+		t.Fatalf("Chunk error retC")
+	}
+	for _, v := range retC {
+		for i, vv := range v {
+			if vv != i+1 {
+				t.Fatalf("Chunk error retC")
+			}
+		}
+	}
+}
+
 func TestInArray(t *testing.T) {
 	testA := []int{1, 2, 3}
 	array.InArray(testA, 2)

@@ -1,6 +1,8 @@
 package array
 
-import "strings"
+import (
+	"strings"
+)
 
 const CaseLower = "lower"
 const CaseUpper = "upper"
@@ -21,6 +23,20 @@ func ChangeKeyCase[T comparable](arr map[string]T, t string) map[string]T {
 		arrReturn = arr
 	}
 	return arrReturn
+}
+
+func Chunk[T comparable](arr []T, length int) (arrReturn [][]T) {
+	start := 0
+	end := length
+	for end <= len(arr) {
+		arrReturn = append(arrReturn, arr[start:end])
+		start += length
+		end += length
+	}
+	if len(arrReturn)*length < len(arr) {
+		arrReturn = append(arrReturn, arr[end-length:])
+	}
+	return
 }
 
 func Push[T comparable](arr []T, v T) (arrReturn []T) {
