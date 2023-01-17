@@ -5,6 +5,39 @@ import (
 	"testing"
 )
 
+func TestChangeKeyCase(t *testing.T) {
+	defer func() {
+		if r := recover(); r != nil {
+			t.Fatalf("panic error: %v", r)
+		}
+	}()
+
+	test := map[string]int{"a": 1, "B": 2}
+
+	retA := array.ChangeKeyCase(test, array.CaseLower)
+	var num int
+	for i := range retA {
+		if num == 0 && i != "a" {
+			t.Fatalf("ChangeKeyCase key lower error")
+		}
+		if num == 1 && i != "b" {
+			t.Fatalf("ChangeKeyCase key lower error")
+		}
+		num++
+	}
+	num = 0
+	retB := array.ChangeKeyCase(test, array.CaseUpper)
+	for i := range retB {
+		if num == 0 && i != "A" {
+			t.Fatalf("ChangeKeyCase key upper error")
+		}
+		if num == 1 && i != "B" {
+			t.Fatalf("ChangeKeyCase key upper error")
+		}
+		num++
+	}
+}
+
 func TestInArray(t *testing.T) {
 	testA := []int{1, 2, 3}
 	array.InArray(testA, 2)
