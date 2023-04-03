@@ -73,14 +73,14 @@ func TestChunk(t *testing.T) {
 }
 
 func TestArrayColumn(t *testing.T) {
-	data := []map[string]any{
+	data := []map[string]int{
 		{"a": 1, "b": 2, "c": 3, "d": 4},
 		{"a": 5, "b": 6, "c": 7, "d": 8},
 		{"a": 9, "b": 10, "c": 11, "d": 12},
 	}
 	ret := array.Column(data, "b")
 	for _, v := range ret {
-		if array.InArray(v, []any{2, 6, 10}) == false {
+		if array.InArray(v, []int{2, 6, 10}) == false {
 			t.Fatalf("Column error")
 		}
 	}
