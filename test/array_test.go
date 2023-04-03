@@ -2,6 +2,7 @@ package test
 
 import (
 	"github.com/chenbo29/go2php/array"
+	"strings"
 	"testing"
 )
 
@@ -17,22 +18,16 @@ func TestChangeKeyCase(t *testing.T) {
 	retA := array.ChangeKeyCase(test, array.CaseLower)
 	var num int
 	for i := range retA {
-		if num == 0 && i != "a" {
-			t.Fatalf("ChangeKeyCase key lower error")
-		}
-		if num == 1 && i != "b" {
-			t.Fatalf("ChangeKeyCase key lower error")
+		if strings.ToLower(i) != i {
+			t.Fatalf("ChangeKeyCase key upper error[%v][%v][%v]", test, num, i)
 		}
 		num++
 	}
 	num = 0
 	retB := array.ChangeKeyCase(test, array.CaseUpper)
 	for i := range retB {
-		if num == 0 && i != "A" {
-			t.Fatalf("ChangeKeyCase key upper error")
-		}
-		if num == 1 && i != "B" {
-			t.Fatalf("ChangeKeyCase key upper error")
+		if strings.ToUpper(i) != i {
+			t.Fatalf("ChangeKeyCase key upper error[%v][%v][%v]", test, num, i)
 		}
 		num++
 	}
@@ -77,9 +72,34 @@ func TestChunk(t *testing.T) {
 	}
 }
 
+func TestArrayColumn(t *testing.T) {
+	data := []map[string]any{
+		{"a": 1, "b": 2, "c": 3, "d": 4},
+		{"a": 5, "b": 6, "c": 7, "d": 8},
+		{"a": 9, "b": 10, "c": 11, "d": 12},
+	}
+	ret := array.Column(data, "b")
+	for _, v := range ret {
+		if array.InArray(v, []any{2, 6, 10}) == false {
+			t.Fatalf("Column error")
+		}
+	}
+}
+
+func TestCombine(t *testing.T) {
+	dataA := []string{"a", "b", "c", "d", "e", "f"}
+	dataB := []string{"A", "B", "C", "D", "E", "F"}
+	dataC := array.Combine(dataA, dataB)
+	for i, v := range dataA {
+		if dataC[v] != dataB[i] {
+			t.Fatalf("Combine error")
+		}
+	}
+}
+
 func TestInArray(t *testing.T) {
 	testA := []int{1, 2, 3}
-	array.InArray(testA, 2)
+	array.InArray(2, testA)
 	for _, v := range testA {
 		if v == 2 {
 			return
@@ -91,7 +111,7 @@ func TestInArray(t *testing.T) {
 func TestPush(t *testing.T) {
 	testA := []int{1, 2, 3}
 	testA = array.Push(testA, 4)
-	array.InArray(testA, 4)
+	array.InArray(4, testA)
 }
 
 func TestMerge(t *testing.T) {

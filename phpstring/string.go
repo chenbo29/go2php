@@ -1,4 +1,4 @@
-package phpString
+package phpstring
 
 import (
 	"errors"
@@ -95,4 +95,13 @@ func Chr(num int) (string, error) {
 	} else {
 		return "", errors.New("暂不支持控制字符【第 0~31 个字符以及第 127 个字符】")
 	}
+}
+
+func InArrayString(v string, arr []string) bool {
+	for _, a := range arr {
+		if a == v {
+			return true
+		}
+	}
+	return false
 }

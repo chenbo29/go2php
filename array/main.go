@@ -1,6 +1,7 @@
 package array
 
 import (
+	"log"
 	"strings"
 )
 
@@ -22,6 +23,8 @@ func ChangeKeyCase[T comparable](arr map[string]T, t string) map[string]T {
 	default:
 		arrReturn = arr
 	}
+	log.Println(arr)
+	log.Println(arrReturn)
 	return arrReturn
 }
 
@@ -39,6 +42,26 @@ func Chunk[T comparable](arr []T, length int) (arrReturn [][]T) {
 	return
 }
 
+func Column[T comparable](arr []map[string]T, key string) (arrReturn []T) {
+	for _, v := range arr {
+		if _, ok := v[key]; ok {
+			arrReturn = append(arrReturn, v[key])
+		}
+	}
+	return
+}
+
+func Combine[T comparable](arrA []T, arrB []T) map[T]T {
+	if len(arrA) != len(arrB) {
+		log.Fatalln("Combine length mismatch")
+	}
+	arrReturn := make(map[T]T, len(arrA))
+	for i := range arrA {
+		arrReturn[arrA[i]] = arrB[i]
+	}
+	return arrReturn
+}
+
 func Push[T comparable](arr []T, v T) (arrReturn []T) {
 	arrReturn = append(arr, v)
 	return
@@ -51,7 +74,7 @@ func Merge[T comparable](arrA []T, arrB []T) []T {
 	return arrA
 }
 
-func InArray[T comparable](arr []T, elem T) bool {
+func InArray[T comparable](elem T, arr []T) bool {
 	for _, v := range arr {
 		if v == elem {
 			return true

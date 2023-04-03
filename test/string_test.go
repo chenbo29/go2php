@@ -35,13 +35,13 @@ var testsSubstr = []Substr{
 func TestSubstr(t *testing.T) {
 	str := "test"
 	start := int64(10)
-	result, err := phpString.Substr(str, start, 0)
+	result, err := phpstring.Substr(str, start, 0)
 	if err == nil {
 		t.Fatalf(`Substr("%v", "%b", "%b") = %q ,want match for %q`, str, start, 0, result, errors.New("start长度不能大于字符串长度"))
 	}
 
 	for i, test := range testsSubstr {
-		result, err := phpString.Substr(test.str, test.start, test.length)
+		result, err := phpstring.Substr(test.str, test.start, test.length)
 		want := regexp.MustCompile(test.expected)
 		if !want.MatchString(result) || err != nil {
 			t.Fatalf(`#%d Substr("%v", "%b", "%b") = %q, %q ,want match for %q, nil`, i, test.str, test.start, test.length, result, err, want)
@@ -58,7 +58,7 @@ var testsTrim = []Trim{
 
 func TestTrim(t *testing.T) {
 	for i, str := range testsTrim {
-		ret := phpString.Trim(str.str, str.mask)
+		ret := phpstring.Trim(str.str, str.mask)
 		if ret != str.result {
 			t.Fatalf(`#%d Trim("%v", "%v") = %q, want result is %q`, i, str.str, str.mask, ret, str.result)
 		}
@@ -73,7 +73,7 @@ var testsLtrim = []Trim{
 
 func TestLtrim(t *testing.T) {
 	for i, str := range testsLtrim {
-		ret := phpString.Ltrim(str.str, str.mask)
+		ret := phpstring.Ltrim(str.str, str.mask)
 		if ret != str.result {
 			t.Fatalf(`#%d Ltrim("%v", "%v") = %q, want result is %q`, i, str.str, str.mask, ret, str.result)
 		}
@@ -88,7 +88,7 @@ var testsRtrim = []Trim{
 
 func TestRtrim(t *testing.T) {
 	for i, str := range testsRtrim {
-		ret := phpString.Rtrim(str.str, str.mask)
+		ret := phpstring.Rtrim(str.str, str.mask)
 		if ret != str.result {
 			t.Fatalf(`#%d Ltrim("%v", "%v") = %q, want result is %q`, i, str.str, str.mask, ret, str.result)
 		}
@@ -110,11 +110,11 @@ var testsChr = []Chr{
 
 func TestChr(t *testing.T) {
 	for i, v := range testsChr {
-		ret, err := phpString.Chr(0)
+		ret, err := phpstring.Chr(0)
 		if err == nil {
 			t.Fatalf(`#%d Chr("%d") = %q, want result is %q`, i, v.target, ret, errors.New("暂不支持控制字符【第 0~31 个字符以及第 127 个字符】"))
 		}
-		ret, err = phpString.Chr(v.target)
+		ret, err = phpstring.Chr(v.target)
 		if err != nil {
 			t.Fatalf(`#%d Chr("%d") = %q, want result is %q`, i, v.target, ret, err)
 		}

@@ -14,6 +14,6 @@ func main() {
 	strA = array.Merge(strA, strB)
 	fmt.Println(strA)
 
-	inArray := array.InArray(str, 13)
+	inArray := array.InArray(13, str)
 	fmt.Println(inArray)
 }

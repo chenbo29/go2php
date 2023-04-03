@@ -1,4 +1,4 @@
-package phpString
+package phpstring
 
 // Permutation 排列组合
 
