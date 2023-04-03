@@ -24,8 +24,6 @@ func ChangeKeyCase[T comparable](arr map[string]T, t string) map[string]T {
 	default:
 		arrReturn = arr
 	}
-	log.Println(arr)
-	log.Println(arrReturn)
 	return arrReturn
 }
 

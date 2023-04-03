@@ -106,8 +106,6 @@ func TestCountValues(t *testing.T) {
 	if ret["1"] != 2 {
 		t.Fatalf("CountValues error")
 	}
-	t.Log(ret)
-
 }
 
 func TestInArray(t *testing.T) {
