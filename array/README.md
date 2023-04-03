@@ -2,10 +2,10 @@
 ## https://www.php.net/manual/en/ref.array.php
 ## 进度
 * [x] array_change_key_case — Changes the case of all keys in an array — 将数组中的所有键名修改为全大写或小写 
-* [x] array_chunk — 将一个数组分割成多个
-* [x] array_column — 返回输入数组中指定列的值
-* [x] array_combine — 创建一个数组，用一个数组的值作为其键名，另一个数组的值作为其值
-* [ ] array_count_values — 统计数组中所有的值
+* [x] array_chunk — Split an array into chunks - 将一个数组分割成多个
+* [x] array_column — Return the values from a single column in the input array - 返回输入数组中指定列的值
+* [x] array_combine — Creates an array by using one array for keys and another for its values- 创建一个数组，用一个数组的值作为其键名，另一个数组的值作为其值
+* [x] array_count_values — 统计数组中所有的值
 * [ ] array_diff_assoc — 带索引检查计算数组的差集
 * [ ] array_diff_key — 使用键名比较计算数组的差集
 * [ ] array_diff_uassoc — 用用户提供的回调函数做索引检查来计算数组的差集

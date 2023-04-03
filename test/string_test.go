@@ -2,7 +2,7 @@ package test
 
 import (
 	"errors"
-	"github.com/chenbo29/go2php/phpString"
+	"github.com/chenbo29/go2php/phpstring"
 	"regexp"
 	"testing"
 )

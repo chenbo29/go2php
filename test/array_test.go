@@ -97,6 +97,19 @@ func TestCombine(t *testing.T) {
 	}
 }
 
+func TestCountValues(t *testing.T) {
+	data := []int{1, 2, 3, 4, 5, 2, 4, 1}
+	ret := array.CountValues(data)
+	if len(ret) != 5 {
+		t.Fatalf("CountValues error")
+	}
+	if ret["1"] != 2 {
+		t.Fatalf("CountValues error")
+	}
+	t.Log(ret)
+
+}
+
 func TestInArray(t *testing.T) {
 	testA := []int{1, 2, 3}
 	array.InArray(2, testA)

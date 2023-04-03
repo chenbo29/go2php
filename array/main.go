@@ -1,6 +1,7 @@
 package array
 
 import (
+	"fmt"
 	"log"
 	"strings"
 )
@@ -58,6 +59,14 @@ func Combine[T comparable](arrA []T, arrB []T) map[T]T {
 	arrReturn := make(map[T]T, len(arrA))
 	for i := range arrA {
 		arrReturn[arrA[i]] = arrB[i]
+	}
+	return arrReturn
+}
+
+func CountValues[T comparable](arr []T) map[string]int {
+	arrReturn := make(map[string]int, len(arr))
+	for _, v := range arr {
+		arrReturn[fmt.Sprintf("%#v", v)]++
 	}
 	return arrReturn
 }
