@@ -69,6 +69,15 @@ func CountValues[T comparable](arr []T) map[string]int {
 	return arrReturn
 }
 
+func Diff[T comparable](arrA []T, arrB []T) (arrReturn []T) {
+	for _, v := range arrA {
+		if InArray(v, arrB) == false {
+			arrReturn = append(arrReturn, v)
+		}
+	}
+	return
+}
+
 func Push[T comparable](arr []T, v T) (arrReturn []T) {
 	arrReturn = append(arr, v)
 	return

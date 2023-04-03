@@ -2,6 +2,7 @@ package test
 
 import (
 	"github.com/chenbo29/go2php/array"
+	"log"
 	"strings"
 	"testing"
 )
@@ -117,6 +118,15 @@ func TestInArray(t *testing.T) {
 		}
 	}
 	t.Fatalf("InArray error")
+}
+
+func TestDiff(t *testing.T) {
+	dataA := []int{1, 2, 6, 4, 5}
+	dataB := []int{1, 2, 3, 2, 4, 1}
+	dataC := array.Diff(dataA, dataB)
+	if array.InArray(6, dataC) == false || array.InArray(5, dataC) == false {
+		log.Fatalf("Diff error")
+	}
 }
 
 func TestPush(t *testing.T) {
