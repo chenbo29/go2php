@@ -78,6 +78,13 @@ func Diff[T comparable](arrA []T, arrB []T) (arrReturn []T) {
 	return
 }
 
+func Keys[T comparable](arr map[string]T) (arrReturn []string) {
+	for k := range arr {
+		arrReturn = append(arrReturn, k)
+	}
+	return
+}
+
 func Push[T comparable](arr []T, v T) (arrReturn []T) {
 	arrReturn = append(arr, v)
 	return

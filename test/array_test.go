@@ -129,6 +129,21 @@ func TestDiff(t *testing.T) {
 	}
 }
 
+func TestKeys(t *testing.T) {
+	data := map[string]string{
+		"a": "b",
+		"c": "d",
+		"e": "f",
+	}
+	ret := array.Keys(data)
+	if len(ret) != 3 {
+		t.Fatalf("Keys error")
+	}
+	if array.InArray("c", ret) == false {
+		t.Fatalf("Keys error")
+	}
+}
+
 func TestPush(t *testing.T) {
 	testA := []int{1, 2, 3}
 	testA = array.Push(testA, 4)

@@ -29,11 +29,11 @@ GoLang alternatives for PHP functions
 * [ ] array_intersect_uassoc — 带索引检查计算数组的交集，用回调函数比较索引
 * [ ] array_intersect_ukey — 在键名上使用回调函数来比较计算数组的交集
 * [ ] array_intersect — 计算数组的交集
-* [ ] array_is_list — 判断给定的 array 是否为 list
+* [ ] ❌array_is_list — 判断给定的 array 是否为 list
 * [ ] array_key_exists — 检查数组里是否有指定的键名或索引
 * [ ] array_key_first — 获取指定数组的第一个键
 * [ ] array_key_last — 获取一个数组的最后一个键值
-* [ ] array_keys — 返回数组中部分的或所有的键名
+* [x] array_keys — 返回数组中部分的或所有的键名
 * [ ] array_map — 为数组的每个元素应用回调函数
 * [ ] array_merge_recursive — 递归地合并一个或多个数组
 * [x] array_merge — 合并一个或多个数组
