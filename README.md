@@ -15,7 +15,7 @@ GoLang alternatives for PHP functions
 * [x] array_column — Return the values from a single column in the input array - 返回输入数组中指定列的值
 * [x] array_combine — Creates an array by using one array for keys and another for its values- 创建一个数组，用一个数组的值作为其键名，另一个数组的值作为其值
 * [x] array_count_values — Counts all the values of an array - 统计数组中所有的值
-* [ ] array_diff_assoc — 带索引检查计算数组的差集
+* [x] array_diff_assoc — Computes the difference of arrays with additional index check - 带索引检查计算数组的差集
 * [ ] array_diff_key — 使用键名比较计算数组的差集
 * [ ] array_diff_uassoc — 用用户提供的回调函数做索引检查来计算数组的差集
 * [ ] array_diff_ukey — 用回调函数对键名比较计算数组的差集

@@ -69,6 +69,24 @@ func CountValues[T comparable](arr []T) map[string]int {
 	return arrReturn
 }
 
+// DiffAssoc 返回 base 中那些在任何 others 中都找不到（key AND value 相同）的键值对。https://www.php.net/manual/zh/function.array-diff-assoc.php
+func DiffAssoc[K comparable, V comparable](base map[K]V, others ...map[K]V) map[K]V {
+	result := make(map[K]V)
+	for k, v := range base {
+		found := false
+		for _, other := range others {
+			if ov, ok := other[k]; ok && ov == v {
+				found = true
+				break
+			}
+		}
+		if !found {
+			result[k] = v
+		}
+	}
+	return result
+}
+
 func Diff[T comparable](arrA []T, arrB []T) (arrReturn []T) {
 	for _, v := range arrA {
 		if InArray(v, arrB) == false {

@@ -1,10 +1,11 @@
 package test
 
 import (
-	"github.com/chenbo29/go2php/array"
 	"log"
 	"strings"
 	"testing"
+
+	"github.com/chenbo29/go2php/array"
 )
 
 func TestChangeKeyCase(t *testing.T) {
@@ -118,6 +119,19 @@ func TestInArray(t *testing.T) {
 		}
 	}
 	t.Fatalf("InArray error")
+}
+
+func TestDiffAssoc(t *testing.T) {
+	a := map[string]int{"a": 1, "b": 2, "c": 3}
+	b := map[string]int{"b": 2, "c": 4}
+	c := map[string]int{"c": 3}
+
+	out := array.DiffAssoc(a, b, c) // 只会保留 a 中不存在相同（key+value）的项
+	if val, ok := out["a"]; ok && val == 1 {
+		// success
+	} else {
+		t.Fatalf("InArray error")
+	}
 }
 
 func TestDiff(t *testing.T) {
