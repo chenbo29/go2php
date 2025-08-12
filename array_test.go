@@ -6,6 +6,81 @@ import (
 	"testing"
 )
 
+func TestArrayAll(t *testing.T) {
+	// 示例1：检查切片中所有元素是否为偶数
+	numbers := []int{2, 4, 6, 8}
+	allEven := ArrayAll(numbers, func(key, value interface{}) bool {
+		num, ok := value.(int) // 类型断言，确保是int
+		return ok && num%2 == 0
+	})
+	if !allEven {
+		t.Fatalf("ArrayAll failed")
+	}
+
+	numbers = []int{2, 4, 6, 8, 9}
+	allEven = ArrayAll(numbers, func(key, value interface{}) bool {
+		num, ok := value.(int) // 类型断言，确保是int
+		return ok && num%2 == 0
+	})
+	if allEven {
+		t.Fatalf("ArrayAll failed")
+	}
+
+	// 示例2：检查map中所有动物名称长度是否小于12
+	animals := map[string]string{
+		"a": "dog",
+		"b": "cat",
+		"c": "cow",
+		"d": "duck",
+	}
+	allShortNames := ArrayAll(animals, func(key, value interface{}) bool {
+		name, ok := value.(string) // 类型断言，确保是string
+		return ok && len(name) < 12
+	})
+	if !allShortNames {
+		t.Fatalf("ArrayAll failed")
+	}
+	//超过6
+	animals = map[string]string{
+		"a": "dog",
+		"b": "cat",
+		"c": "cow",
+		"d": "elephant",
+	}
+	allShortNames = ArrayAll(animals, func(key, value interface{}) bool {
+		name, ok := value.(string) // 类型断言，确保是string
+		return ok && len(name) < 6
+	})
+	if allShortNames {
+		t.Fatalf("ArrayAll failed")
+	}
+
+	// 示例3：检查空集合-slice（返回true）
+	var emptySlice []string
+	emptyResult := ArrayAll(emptySlice, func(key, value interface{}) bool {
+		return false // 回调返回false，但空集合仍返回true
+	})
+	if !emptyResult {
+		t.Fatalf("ArrayAll failed")
+	}
+	//检查空集合-map
+	var emptyMap = make(map[string]string)
+	emptyMapResult := ArrayAll(emptyMap, func(key, value interface{}) bool {
+		return false // 回调返回false，但空集合仍返回true
+	})
+	if !emptyMapResult {
+		t.Fatalf("ArrayAll failed")
+	}
+	//不支持的类型（非切片/数组/ map）返回false
+	var notSupport int64
+	notSupportResult := ArrayAll(notSupport, func(key, value interface{}) bool {
+		return false // 回调返回false，但空集合仍返回true
+	})
+	if notSupportResult {
+		t.Fatalf("ArrayAll failed")
+	}
+}
+
 func TestChangeKeyCase(t *testing.T) {
 	defer func() {
 		if r := recover(); r != nil {

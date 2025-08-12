@@ -10,16 +10,17 @@ GoLang alternatives for PHP functions
 ## Array Functions
 ## https://www.php.net/manual/en/ref.array.php
 ## 进度
-* [✔] array_change_key_case — Changes the case of all keys in an array — 将数组中的所有键名修改为全大写或小写
-* [x] array_chunk — Split an array into chunks - 将一个数组分割成多个
-* [x] array_column — Return the values from a single column in the input array - 返回输入数组中指定列的值
-* [x] array_combine — Creates an array by using one array for keys and another for its values- 创建一个数组，用一个数组的值作为其键名，另一个数组的值作为其值
-* [x] array_count_values — Counts all the values of an array - 统计数组中所有的值
-* [x] array_diff_assoc — Computes the difference of arrays with additional index check - 带索引检查计算数组的差集
+* ✔ array_all — Checks if all array elements satisfy a callback function - 检查所有数组元素是否满足回调功能
+* ✔ array_change_key_case — Changes the case of all keys in an array — 将数组中的所有键名修改为全大写或小写
+* ✔ array_chunk — Split an array into chunks - 将一个数组分割成多个
+* ✔ array_column — Return the values from a single column in the input array - 返回输入数组中指定列的值
+* ✔ array_combine — Creates an array by using one array for keys and another for its values- 创建一个数组，用一个数组的值作为其键名，另一个数组的值作为其值
+* ✔ array_count_values — Counts all the values of an array - 统计数组中所有的值
+* ✔ array_diff_assoc — Computes the difference of arrays with additional index check - 带索引检查计算数组的差集
 * [ ] array_diff_key — 使用键名比较计算数组的差集
 * [ ] array_diff_uassoc — 用用户提供的回调函数做索引检查来计算数组的差集
 * [ ] array_diff_ukey — 用回调函数对键名比较计算数组的差集
-* [x] array_diff — Computes the difference of arrays - 计算数组的差集
+* ✔ array_diff — Computes the difference of arrays - 计算数组的差集
 * [ ] array_fill_keys — 使用指定的键和值填充数组
 * [ ] array_fill — 用给定的值填充数组
 * [ ] array_filter — 使用回调函数过滤数组的元素
@@ -33,15 +34,15 @@ GoLang alternatives for PHP functions
 * [ ] array_key_exists — 检查数组里是否有指定的键名或索引
 * [ ] array_key_first — 获取指定数组的第一个键
 * [ ] array_key_last — 获取一个数组的最后一个键值
-* [x] array_keys — 返回数组中部分的或所有的键名
+* ✔ array_keys — 返回数组中部分的或所有的键名
 * [ ] array_map — 为数组的每个元素应用回调函数
 * [ ] array_merge_recursive — 递归地合并一个或多个数组
-* [x] array_merge — 合并一个或多个数组
+* ✔ array_merge — 合并一个或多个数组
 * [ ] array_multisort — 对多个数组或多维数组进行排序
 * [ ] array_pad — 以指定长度将一个值填充进数组
 * [ ] array_pop — 弹出数组最后一个单元（出栈）
 * [ ] array_product — 计算数组中所有值的乘积
-* [x] array_push — 将一个或多个单元压入数组的末尾（入栈）
+* ✔ array_push — 将一个或多个单元压入数组的末尾（入栈）
 * [ ] array_rand — 从数组中随机取出一个或多个随机键
 * [ ] array_reduce — 用回调函数迭代地将数组简化为单一的值
 * [ ] array_replace_recursive — 使用传递的数组递归替换第一个数组的元素
