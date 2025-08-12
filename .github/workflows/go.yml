@@ -27,5 +27,8 @@ jobs:
     - name: Run Coverage
       run: go test -race -covermode=atomic -coverprofile=coverage.out -coverpkg=./...
 
-    - name: Codecov
-      uses: codecov/codecov-action@v3.1.0
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        verbose: true
