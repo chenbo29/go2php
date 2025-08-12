@@ -1,8 +1,7 @@
-package test
+package go2php
 
 import (
 	"errors"
-	"github.com/chenbo29/go2php/phpstring"
 	"regexp"
 	"testing"
 )
@@ -32,16 +31,16 @@ var testsSubstr = []Substr{
 	{"abcdef", "d", -3, 1},
 }
 
-func TestSubstr(t *testing.T) {
+func TestStringSubstr(t *testing.T) {
 	str := "test"
 	start := int64(10)
-	result, err := phpstring.Substr(str, start, 0)
+	result, err := StringSubstr(str, start, 0)
 	if err == nil {
 		t.Fatalf(`Substr("%v", "%b", "%b") = %q ,want match for %q`, str, start, 0, result, errors.New("start长度不能大于字符串长度"))
 	}
 
 	for i, test := range testsSubstr {
-		result, err := phpstring.Substr(test.str, test.start, test.length)
+		result, err = StringSubstr(test.str, test.start, test.length)
 		want := regexp.MustCompile(test.expected)
 		if !want.MatchString(result) || err != nil {
 			t.Fatalf(`#%d Substr("%v", "%b", "%b") = %q, %q ,want match for %q, nil`, i, test.str, test.start, test.length, result, err, want)
@@ -56,9 +55,9 @@ var testsTrim = []Trim{
 	{"欢迎光临", "临", "欢迎光"},
 }
 
-func TestTrim(t *testing.T) {
+func TestStringTrim(t *testing.T) {
 	for i, str := range testsTrim {
-		ret := phpstring.Trim(str.str, str.mask)
+		ret := StringTrim(str.str, str.mask)
 		if ret != str.result {
 			t.Fatalf(`#%d Trim("%v", "%v") = %q, want result is %q`, i, str.str, str.mask, ret, str.result)
 		}
@@ -71,9 +70,9 @@ var testsLtrim = []Trim{
 	{"Hello World", "Hdle", "o World"},
 }
 
-func TestLtrim(t *testing.T) {
+func TestStringLtrim(t *testing.T) {
 	for i, str := range testsLtrim {
-		ret := phpstring.Ltrim(str.str, str.mask)
+		ret := StringLtrim(str.str, str.mask)
 		if ret != str.result {
 			t.Fatalf(`#%d Ltrim("%v", "%v") = %q, want result is %q`, i, str.str, str.mask, ret, str.result)
 		}
@@ -86,9 +85,9 @@ var testsRtrim = []Trim{
 	{"Hello World", "Hdle", "Hello Wor"},
 }
 
-func TestRtrim(t *testing.T) {
+func TestStringRtrim(t *testing.T) {
 	for i, str := range testsRtrim {
-		ret := phpstring.Rtrim(str.str, str.mask)
+		ret := StringRtrim(str.str, str.mask)
 		if ret != str.result {
 			t.Fatalf(`#%d Ltrim("%v", "%v") = %q, want result is %q`, i, str.str, str.mask, ret, str.result)
 		}
@@ -108,18 +107,27 @@ var testsChr = []Chr{
 	{target: 32, expect: " "},
 }
 
-func TestChr(t *testing.T) {
+func TestStringChr(t *testing.T) {
 	for i, v := range testsChr {
-		ret, err := phpstring.Chr(0)
+		ret, err := StringChr(0)
 		if err == nil {
 			t.Fatalf(`#%d Chr("%d") = %q, want result is %q`, i, v.target, ret, errors.New("暂不支持控制字符【第 0~31 个字符以及第 127 个字符】"))
 		}
-		ret, err = phpstring.Chr(v.target)
+		ret, err = StringChr(v.target)
 		if err != nil {
 			t.Fatalf(`#%d Chr("%d") = %q, want result is %q`, i, v.target, ret, err)
 		}
 		if ret != v.expect {
 			t.Fatalf(`#%d Chr("%d") = %q, want result is %q`, i, v.target, ret, v.expect)
 		}
+	}
+}
+
+func TestStringInArrayString(t *testing.T) {
+	if StringInArrayString("a", []string{"a", "b", "c"}) != true {
+		t.Fatalf(`StringInArrayString("a", []string{"a", "b", "c"}) = false, want true`)
+	}
+	if StringInArrayString("a", []string{"b", "c"}) != false {
+		t.Fatalf(`StringInArrayString("a", []string{"a", "b", "c"}) = true, want false`)
 	}
 }

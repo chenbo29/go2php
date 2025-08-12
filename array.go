@@ -1,16 +1,16 @@
-package array
+package go2php
 
 import (
+	"errors"
 	"fmt"
-	"log"
 	"strings"
 )
 
 const CaseLower = "lower"
 const CaseUpper = "upper"
 
-// ChangeKeyCase array_change_key_case https://www.php.net/manual/en/function.array-change-key-case.php
-func ChangeKeyCase[T comparable](arr map[string]T, t string) map[string]T {
+// ArrayChangeKeyCase https://www.php.net/manual/en/functArrayion.array-change-key-case.php
+func ArrayChangeKeyCase[T comparable](arr map[string]T, t string) map[string]T {
 	arrReturn := make(map[string]T)
 	switch t {
 	case CaseLower:
@@ -27,7 +27,7 @@ func ChangeKeyCase[T comparable](arr map[string]T, t string) map[string]T {
 	return arrReturn
 }
 
-func Chunk[T comparable](arr []T, length int) (arrReturn [][]T) {
+func ArrayChunk[T comparable](arr []T, length int) (arrReturn [][]T) {
 	start := 0
 	end := length
 	for end <= len(arr) {
@@ -41,7 +41,7 @@ func Chunk[T comparable](arr []T, length int) (arrReturn [][]T) {
 	return
 }
 
-func Column[T comparable](arr []map[string]T, key string) (arrReturn []T) {
+func ArrayColumn[T comparable](arr []map[string]T, key string) (arrReturn []T) {
 	for _, v := range arr {
 		if _, ok := v[key]; ok {
 			arrReturn = append(arrReturn, v[key])
@@ -50,18 +50,19 @@ func Column[T comparable](arr []map[string]T, key string) (arrReturn []T) {
 	return
 }
 
-func Combine[T comparable](arrA []T, arrB []T) map[T]T {
+// ArrayCombine https://www.php.net/manual/zh/function.array-combine.php
+func ArrayCombine[T comparable](arrA []T, arrB []T) (map[T]T, error) {
 	if len(arrA) != len(arrB) {
-		log.Fatalln("Combine length mismatch")
+		return nil, errors.New("combine array length mismatch")
 	}
 	arrReturn := make(map[T]T, len(arrA))
 	for i := range arrA {
 		arrReturn[arrA[i]] = arrB[i]
 	}
-	return arrReturn
+	return arrReturn, nil
 }
 
-func CountValues[T comparable](arr []T) map[string]int {
+func ArrayCountValues[T comparable](arr []T) map[string]int {
 	arrReturn := make(map[string]int, len(arr))
 	for _, v := range arr {
 		arrReturn[fmt.Sprintf("%#v", v)]++
@@ -69,8 +70,8 @@ func CountValues[T comparable](arr []T) map[string]int {
 	return arrReturn
 }
 
-// DiffAssoc 返回 base 中那些在任何 others 中都找不到（key AND value 相同）的键值对。https://www.php.net/manual/zh/function.array-diff-assoc.php
-func DiffAssoc[K comparable, V comparable](base map[K]V, others ...map[K]V) map[K]V {
+// ArrayDiffAssoc 返回 base 中那些在任何 others 中都找不到（key AND value 相同）的键值对。https://www.php.net/manual/zh/functArrayion.array-diff-assoc.php
+func ArrayDiffAssoc[K comparable, V comparable](base map[K]V, others ...map[K]V) map[K]V {
 	result := make(map[K]V)
 	for k, v := range base {
 		found := false
@@ -87,35 +88,35 @@ func DiffAssoc[K comparable, V comparable](base map[K]V, others ...map[K]V) map[
 	return result
 }
 
-func Diff[T comparable](arrA []T, arrB []T) (arrReturn []T) {
+func ArrayDiff[T comparable](arrA []T, arrB []T) (arrReturn []T) {
 	for _, v := range arrA {
-		if InArray(v, arrB) == false {
+		if ArrayInArray(v, arrB) == false {
 			arrReturn = append(arrReturn, v)
 		}
 	}
 	return
 }
 
-func Keys[T comparable](arr map[string]T) (arrReturn []string) {
+func ArrayKeys[T comparable](arr map[string]T) (arrReturn []string) {
 	for k := range arr {
 		arrReturn = append(arrReturn, k)
 	}
 	return
 }
 
-func Push[T comparable](arr []T, v T) (arrReturn []T) {
+func ArrayPush[T comparable](arr []T, v T) (arrReturn []T) {
 	arrReturn = append(arr, v)
 	return
 }
 
-func Merge[T comparable](arrA []T, arrB []T) []T {
+func ArrayMerge[T comparable](arrA []T, arrB []T) []T {
 	for _, v := range arrB {
 		arrA = append(arrA, v)
 	}
 	return arrA
 }
 
-func InArray[T comparable](elem T, arr []T) bool {
+func ArrayInArray[T comparable](elem T, arr []T) bool {
 	for _, v := range arr {
 		if v == elem {
 			return true

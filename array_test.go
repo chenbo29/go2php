@@ -1,11 +1,9 @@
-package test
+package go2php
 
 import (
 	"log"
 	"strings"
 	"testing"
-
-	"github.com/chenbo29/go2php/array"
 )
 
 func TestChangeKeyCase(t *testing.T) {
@@ -17,7 +15,7 @@ func TestChangeKeyCase(t *testing.T) {
 
 	test := map[string]int{"a": 1, "B": 2}
 
-	retA := array.ChangeKeyCase(test, array.CaseLower)
+	retA := ArrayChangeKeyCase(test, CaseLower)
 	var num int
 	for i := range retA {
 		if strings.ToLower(i) != i {
@@ -26,10 +24,18 @@ func TestChangeKeyCase(t *testing.T) {
 		num++
 	}
 	num = 0
-	retB := array.ChangeKeyCase(test, array.CaseUpper)
+	retB := ArrayChangeKeyCase(test, CaseUpper)
 	for i := range retB {
 		if strings.ToUpper(i) != i {
 			t.Fatalf("ChangeKeyCase key upper error[%v][%v][%v]", test, num, i)
+		}
+		num++
+	}
+	num = 0
+	retUnknow := ArrayChangeKeyCase(test, "unknow")
+	for i := range retUnknow {
+		if !(i == "a" || i == "B") {
+			t.Fatalf("ChangeKeyCase key “default” error[%v][%v][%v]", test, num, i)
 		}
 		num++
 	}
@@ -37,7 +43,7 @@ func TestChangeKeyCase(t *testing.T) {
 
 func TestChunk(t *testing.T) {
 	testA := []int{1, 2, 3, 4}
-	retA := array.Chunk(testA, 2)
+	retA := ArrayChunk(testA, 2)
 	if len(retA) != 2 {
 		t.Fatalf("Chunk error retA")
 	}
@@ -49,7 +55,7 @@ func TestChunk(t *testing.T) {
 		}
 	}
 
-	retB := array.Chunk(testA, len(testA))
+	retB := ArrayChunk(testA, len(testA))
 	if len(retB) != 1 {
 		t.Fatalf("Chunk error retB")
 	}
@@ -61,7 +67,7 @@ func TestChunk(t *testing.T) {
 		}
 	}
 
-	retC := array.Chunk(testA, len(testA)+1)
+	retC := ArrayChunk(testA, len(testA)+1)
 	if len(retC) != 1 {
 		t.Fatalf("Chunk error retC")
 	}
@@ -80,9 +86,9 @@ func TestArrayColumn(t *testing.T) {
 		{"a": 5, "b": 6, "c": 7, "d": 8},
 		{"a": 9, "b": 10, "c": 11, "d": 12},
 	}
-	ret := array.Column(data, "b")
+	ret := ArrayColumn(data, "b")
 	for _, v := range ret {
-		if array.InArray(v, []int{2, 6, 10}) == false {
+		if ArrayInArray(v, []int{2, 6, 10}) == false {
 			t.Fatalf("Column error")
 		}
 	}
@@ -91,17 +97,25 @@ func TestArrayColumn(t *testing.T) {
 func TestCombine(t *testing.T) {
 	dataA := []string{"a", "b", "c", "d", "e", "f"}
 	dataB := []string{"A", "B", "C", "D", "E", "F"}
-	dataC := array.Combine(dataA, dataB)
+	dataD := []string{"A", "B", "C", "D", "E"}
+	dataC, err := ArrayCombine(dataA, dataB)
+	if err != nil {
+		t.Fatal(err)
+	}
 	for i, v := range dataA {
 		if dataC[v] != dataB[i] {
 			t.Fatalf("Combine error")
 		}
 	}
+	_, err = ArrayCombine(dataA, dataD)
+	if err == nil {
+		t.Fatalf("Combine Need error")
+	}
 }
 
 func TestCountValues(t *testing.T) {
 	data := []int{1, 2, 3, 4, 5, 2, 4, 1}
-	ret := array.CountValues(data)
+	ret := ArrayCountValues(data)
 	if len(ret) != 5 {
 		t.Fatalf("CountValues error")
 	}
@@ -112,7 +126,7 @@ func TestCountValues(t *testing.T) {
 
 func TestInArray(t *testing.T) {
 	testA := []int{1, 2, 3}
-	array.InArray(2, testA)
+	ArrayInArray(2, testA)
 	for _, v := range testA {
 		if v == 2 {
 			return
@@ -126,7 +140,7 @@ func TestDiffAssoc(t *testing.T) {
 	b := map[string]int{"b": 2, "c": 4}
 	c := map[string]int{"c": 3}
 
-	out := array.DiffAssoc(a, b, c) // 只会保留 a 中不存在相同（key+value）的项
+	out := ArrayDiffAssoc(a, b, c) // 只会保留 a 中不存在相同（key+value）的项
 	if val, ok := out["a"]; ok && val == 1 {
 		// success
 	} else {
@@ -137,8 +151,8 @@ func TestDiffAssoc(t *testing.T) {
 func TestDiff(t *testing.T) {
 	dataA := []int{1, 2, 6, 4, 5}
 	dataB := []int{1, 2, 3, 2, 4, 1}
-	dataC := array.Diff(dataA, dataB)
-	if array.InArray(6, dataC) == false || array.InArray(5, dataC) == false {
+	dataC := ArrayDiff(dataA, dataB)
+	if ArrayInArray(6, dataC) == false || ArrayInArray(5, dataC) == false {
 		log.Fatalf("Diff error")
 	}
 }
@@ -149,25 +163,25 @@ func TestKeys(t *testing.T) {
 		"c": "d",
 		"e": "f",
 	}
-	ret := array.Keys(data)
+	ret := ArrayKeys(data)
 	if len(ret) != 3 {
 		t.Fatalf("Keys error")
 	}
-	if array.InArray("c", ret) == false {
+	if ArrayInArray("c", ret) == false {
 		t.Fatalf("Keys error")
 	}
 }
 
 func TestPush(t *testing.T) {
 	testA := []int{1, 2, 3}
-	testA = array.Push(testA, 4)
-	array.InArray(4, testA)
+	testA = ArrayPush(testA, 4)
+	ArrayInArray(4, testA)
 }
 
 func TestMerge(t *testing.T) {
 	testA := []int{1, 2, 3}
 	testB := []int{4, 5, 6}
-	test := array.Merge(testA, testB)
+	test := ArrayMerge(testA, testB)
 	for i := range test {
 		if i != test[i]-1 {
 			t.Fatalf("TestMerge error: %v %v", i, test[i]-1)

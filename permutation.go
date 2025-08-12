@@ -1,4 +1,4 @@
-package phpstring
+package go2php
 
 // Permutation 排列组合
 

@@ -1,12 +1,12 @@
-package phpstring
+package go2php
 
 import (
 	"errors"
 	"strings"
 )
 
-// Substr https://www.php.net/manual/zh/function.substr.php
-func Substr(str string, start int64, length int64) (string, error) {
+// StringSubstr https://www.php.net/manual/zh/function.substr.php
+func StringSubstr(str string, start int64, length int64) (string, error) {
 	strRune := []rune(str)
 	if start > int64(len(str)) {
 		err := errors.New("start长度不能大于字符串长度")
@@ -24,9 +24,9 @@ func Substr(str string, start int64, length int64) (string, error) {
 	return string([]rune(str)[start : start+length]), nil
 }
 
-// Trim https://www.php.net/manual/zh/function.trim.php
+// StringTrim https://www.php.net/manual/zh/function.trim.php
 // todo 使用..，可以指定字符的范围。
-func Trim(str string, characterMask string) string {
+func StringTrim(str string, characterMask string) string {
 	if characterMask == "" {
 		defaultCMask := []string{" ", "\t", "\n", "\r", "\x0b"}
 		for _, mask := range defaultCMask {
@@ -46,8 +46,8 @@ func Trim(str string, characterMask string) string {
 	}
 }
 
-// Ltrim https://www.php.net/manual/zh/function.ltrim.php
-func Ltrim(str string, characterMask string) string {
+// StringLtrim https://www.php.net/manual/zh/function.ltrim.php
+func StringLtrim(str string, characterMask string) string {
 	if characterMask == "" {
 		defaultCMask := []string{" ", "\t", "\n", "\r", "\x0b"}
 		for _, mask := range defaultCMask {
@@ -67,8 +67,8 @@ func Ltrim(str string, characterMask string) string {
 	}
 }
 
-// Rtrim https://www.php.net/manual/zh/function.rtrim.php
-func Rtrim(str string, characterMask string) string {
+// StringRtrim https://www.php.net/manual/zh/function.rtrim.php
+func StringRtrim(str string, characterMask string) string {
 	if characterMask == "" {
 		defaultCMask := []string{" ", "\t", "\n", "\r", "\x0b"}
 		for _, mask := range defaultCMask {
@@ -88,8 +88,8 @@ func Rtrim(str string, characterMask string) string {
 	}
 }
 
-// Chr https://www.php.net/manual/zh/function.chr.php
-func Chr(num int) (string, error) {
+// StringChr https://www.php.net/manual/zh/function.chr.php
+func StringChr(num int) (string, error) {
 	if num > 31 && num < 127 {
 		return string(rune(num)), nil
 	} else {
@@ -97,7 +97,7 @@ func Chr(num int) (string, error) {
 	}
 }
 
-func InArrayString(v string, arr []string) bool {
+func StringInArrayString(v string, arr []string) bool {
 	for _, a := range arr {
 		if a == v {
 			return true
