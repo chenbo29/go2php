@@ -286,6 +286,15 @@ func TestInArray(t *testing.T) {
 	t.Fatalf("InArray error")
 }
 
+func TestDiff(t *testing.T) {
+	dataA := []int{1, 2, 6, 4, 5}
+	dataB := []int{1, 2, 3, 2, 4, 1}
+	dataC := ArrayDiff(dataA, dataB)
+	if ArrayInArray(6, dataC) == false || ArrayInArray(5, dataC) == false {
+		log.Fatalf("Diff error")
+	}
+}
+
 func TestDiffAssoc(t *testing.T) {
 	a := map[string]int{"a": 1, "b": 2, "c": 3}
 	b := map[string]int{"b": 2, "c": 4}
@@ -299,12 +308,62 @@ func TestDiffAssoc(t *testing.T) {
 	}
 }
 
-func TestDiff(t *testing.T) {
-	dataA := []int{1, 2, 6, 4, 5}
-	dataB := []int{1, 2, 3, 2, 4, 1}
-	dataC := ArrayDiff(dataA, dataB)
-	if ArrayInArray(6, dataC) == false || ArrayInArray(5, dataC) == false {
-		log.Fatalf("Diff error")
+func TestArrayDiffUassoc(t *testing.T) {
+	array1 := map[interface{}]interface{}{
+		"a": "green",
+		"b": "brown",
+		"c": "blue",
+		0:   "red", // 对应PHP中自动分配的索引键0
+	}
+
+	array2 := map[interface{}]interface{}{
+		"a": "green",
+		0:   "yellow", // 对应PHP中"yellow"的索引键0
+		1:   "red",    // 对应PHP中"red"的索引键1
+	}
+
+	// 定义键比较函数（模拟PHP的<=>操作符）
+	keyCompare := func(a, b interface{}) int {
+		// 处理字符串键比较
+		if aStr, okA := a.(string); okA {
+			if bStr, okB := b.(string); okB {
+				return strings.Compare(aStr, bStr)
+			}
+		}
+
+		// 处理整数键比较
+		if aInt, okA := a.(int); okA {
+			if bInt, okB := b.(int); okB {
+				if aInt < bInt {
+					return -1
+				} else if aInt > bInt {
+					return 1
+				}
+				return 0
+			}
+		}
+
+		// 不同类型的键视为不相等（例如字符串vs整数）
+		return 1
+	}
+
+	// 计算差集
+	result := ArrayDiffUassoc(array1, []map[interface{}]interface{}{array2}, keyCompare)
+
+	for k, v := range result {
+		if k == "b" && v != "brown" {
+			log.Println(result)
+			log.Fatalf("ArrayDiffUassoc error of key b")
+		}
+		if k == "c" && v != "blue" {
+			log.Println(result)
+			log.Fatalf("ArrayDiffUassoc error of key c")
+		}
+		if k == "0" && v != "red" {
+			log.Println(result)
+			log.Fatalf("ArrayDiffUassoc error of key 0")
+		}
+
 	}
 }
 

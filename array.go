@@ -154,6 +154,16 @@ func ArrayCountValues[T comparable](arr []T) map[string]int {
 	return arrReturn
 }
 
+func ArrayDiff[T comparable](arrA []T, arrB []T) (arrReturn []T) {
+
+	for _, v := range arrA {
+		if ArrayInArray(v, arrB) == false {
+			arrReturn = append(arrReturn, v)
+		}
+	}
+	return
+}
+
 // ArrayDiffAssoc 返回 base 中那些在任何 others 中都找不到（key AND value 相同）的键值对。https://www.php.net/manual/zh/functArrayion.array-diff-assoc.php
 func ArrayDiffAssoc[K comparable, V comparable](base map[K]V, others ...map[K]V) map[K]V {
 	result := make(map[K]V)
@@ -172,13 +182,46 @@ func ArrayDiffAssoc[K comparable, V comparable](base map[K]V, others ...map[K]V)
 	return result
 }
 
-func ArrayDiff[T comparable](arrA []T, arrB []T) (arrReturn []T) {
-	for _, v := range arrA {
-		if ArrayInArray(v, arrB) == false {
-			arrReturn = append(arrReturn, v)
+// KeyCompareFunc 定义键比较回调函数类型，返回值：<0（a<b）、0（a==b）、>0（a>b）
+type KeyCompareFunc func(a, b interface{}) int
+
+// ArrayDiffUassoc 实现PHP的array_diff_uassoc功能
+// 参数：
+//
+//	a: 基准map
+//	others: 用于比较的其他map集合
+//	cmp: 键比较回调函数
+//
+// 返回：a中存在但others中不存在的元素组成的map
+func ArrayDiffUassoc(a map[interface{}]interface{}, others []map[interface{}]interface{}, cmp KeyCompareFunc) map[interface{}]interface{} {
+	result := make(map[interface{}]interface{})
+
+	// 遍历基准map的每个键值对
+	for keyA, valA := range a {
+		keep := true // 标记是否保留当前元素
+
+		// 检查所有其他map
+		for _, other := range others {
+			// 遍历当前对比map的每个键值对
+			for keyOther, valOther := range other {
+				// 用回调函数比较键是否相等
+				if cmp(keyA, keyOther) == 0 {
+					// 键相等时，检查值是否相等（深度比较）
+					if reflect.DeepEqual(valA, valOther) {
+						keep = false  // 找到匹配元素，不保留
+						goto endCheck // 跳出多重循环
+					}
+				}
+			}
+		}
+
+	endCheck:
+		if keep {
+			result[keyA] = valA
 		}
 	}
-	return
+
+	return result
 }
 
 func ArrayKeys[T comparable](arr map[string]T) (arrReturn []string) {

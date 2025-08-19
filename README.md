@@ -18,10 +18,10 @@ GoLang alternatives for PHP functions
 * ✔ array_combine — Creates an array by using one array for keys and another for its values- 创建一个数组，用一个数组的值作为其键名，另一个数组的值作为其值
 * ✔ array_count_values — Counts all the values of an array - 统计数组中所有的值
 * ✔ array_diff_assoc — Computes the difference of arrays with additional index check - 带索引检查计算数组的差集
-* [ ] array_diff_key — 使用键名比较计算数组的差集
-* [ ] array_diff_uassoc — 用用户提供的回调函数做索引检查来计算数组的差集
-* [ ] array_diff_ukey — 用回调函数对键名比较计算数组的差集
 * ✔ array_diff — Computes the difference of arrays - 计算数组的差集
+* ✔ array_diff_uassoc — Computes the difference of arrays with additional index check which is performed by a user supplied callback function — 用用户提供的回调函数做索引检查来计算数组的差集
+* [ ] array_diff_key — 使用键名比较计算数组的差集
+* [ ] array_diff_ukey — 用回调函数对键名比较计算数组的差集
 * [ ] array_fill_keys — 使用指定的键和值填充数组
 * [ ] array_fill — 用给定的值填充数组
 * [ ] array_filter — 使用回调函数过滤数组的元素
