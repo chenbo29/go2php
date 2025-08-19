@@ -53,6 +53,46 @@ func ArrayAll(collection interface{}, callback Callback) bool {
 	return false
 }
 
+// ArrayAny 检查集合中任意一个元素是否满足回调函数条件
+// 支持切片（数组）和map，空集合返回true
+func ArrayAny(collection interface{}, callback Callback) bool {
+	val := reflect.ValueOf(collection)
+
+	// 处理切片或数组（类似PHP索引数组）
+	if val.Kind() == reflect.Slice || val.Kind() == reflect.Array {
+		if val.Len() == 0 {
+			return true // 空切片返回true
+		}
+		// 遍历切片，索引为key，元素为value
+		for i := 0; i < val.Len(); i++ {
+			key := i
+			value := val.Index(i).Interface() // 获取元素值
+			if callback(key, value) {
+				return true // 有一个满足则返回true
+			}
+		}
+		return false
+	}
+
+	// 处理map（类似PHP关联数组）
+	if val.Kind() == reflect.Map {
+		if val.Len() == 0 {
+			return true // 空map返回true
+		}
+		// 遍历map的键值对
+		for _, key := range val.MapKeys() {
+			value := val.MapIndex(key).Interface() // 获取值
+			if callback(key.Interface(), value) {
+				return true // 有一个满足则返回true
+			}
+		}
+		return false
+	}
+
+	// 不支持的类型（非切片/数组/ map）返回false
+	return false
+}
+
 // ArrayChangeKeyCase https://www.php.net/manual/en/function.array-change-key-case.php
 func ArrayChangeKeyCase[T comparable](arr map[string]T, t string) map[string]T {
 	arrReturn := make(map[string]T)

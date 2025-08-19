@@ -11,6 +11,7 @@ GoLang alternatives for PHP functions
 ## https://www.php.net/manual/en/ref.array.php
 ## 进度
 * ✔ array_all — Checks if all array elements satisfy a callback function - 检查所有数组元素是否满足回调功能
+* ✔ array_any — Checks if at least one array element satisfies a callback function - 检查任意数组元素是否满足回调功能
 * ✔ array_change_key_case — Changes the case of all keys in an array — 将数组中的所有键名修改为全大写或小写
 * ✔ array_chunk — Split an array into chunks - 将一个数组分割成多个
 * ✔ array_column — Return the values from a single column in the input array - 返回输入数组中指定列的值
